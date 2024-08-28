@@ -1,11 +1,12 @@
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
+import './globals.css'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 
-// Create a new router instance
+// Create afile:///home/kina/Desktop/EasyCopy%20Extension/index.js new router instance
 const router = createRouter({ routeTree })
 
 // Register the router instance for type safety
