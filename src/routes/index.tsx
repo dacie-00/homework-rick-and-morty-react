@@ -1,8 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
-import {Button} from "@/components/ui/button.tsx";
-import {useInfiniteQuery, useQuery, useQueryClient} from "@tanstack/react-query";
+import {createFileRoute} from '@tanstack/react-router'
+import {useInfiniteQuery, useQueryClient} from "@tanstack/react-query";
 import {getCharacters} from "@/api.tsx";
-import {Fragment} from "react";
+import React, {Fragment} from "react";
+import InfiniteScroll from "@/components/ui/infinite-scroll.tsx";
+import {Loader2} from "lucide-react";
 
 export const Route = createFileRoute('/')({
     component: Index,
@@ -46,18 +47,24 @@ function Index() {
             <ul className={"max-w-xl mx-auto"}>
                 {data.pages.map((page) => (
                     page.data.results.map((character, i) => (
-                        <Fragment key={i}>
-                            <li>
-                                {/*<img src={character.image}/>*/}
-                                <p>Name - {character.name}</p>
-                                <p>Status - {character.status}</p>
-                                <p>Status - {character.species}</p>
-                            </li>
-                        </Fragment>
+                            <Fragment key={i}>
+                                <li>
+                                    {/*<img src={character.image}/>*/}
+                                    <p>Name - {character.name}</p>
+                                    <p>Status - {character.status}</p>
+                                    <p>Status - {character.species}</p>
+                                </li>
+                            </Fragment>
                         )
                     )
                 ))}
             </ul>
+            <div className={"max-w-xl mx-auto"}>
+                <p>foo</p>
+                <InfiniteScroll isLoading={isFetching} hasMore={hasNextPage} next={fetchNextPage}>
+                    {hasNextPage && <Loader2 className="my-4 h-8 w-8 animate-spin" />}
+                </InfiniteScroll>
+            </div>
             <div className={"max-w-xl mx-auto"}>
                 <button
                     onClick={() => fetchNextPage()}
