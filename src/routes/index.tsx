@@ -4,6 +4,7 @@ import {getCharacters} from "@/api.tsx";
 import React, {Fragment} from "react";
 import InfiniteScroll from "@/components/ui/infinite-scroll.tsx";
 import {Loader2} from "lucide-react";
+import CharacterCard from "@/components/ui/character-card.tsx";
 
 export const Route = createFileRoute('/')({
     component: Index,
@@ -23,7 +24,7 @@ function Index() {
     } = useInfiniteQuery({
         queryKey: ['projects'],
         queryFn: getCharacters,
-        initialPageParam: 0,
+        initialPageParam: 1,
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
             if (lastPage.length === 0) {
                 return undefined
@@ -44,15 +45,17 @@ function Index() {
         <p>Error: {error.message}</p>
     ) : (
         <div>
-            <ul className={"max-w-xl mx-auto"}>
+            <ul className={"max-w-xl mx-auto space-y-5 pt-5"}>
                 {data.pages.map((page) => (
                     page.data.results.map((character, i) => (
                             <Fragment key={i}>
                                 <li>
-                                    {/*<img src={character.image}/>*/}
-                                    <p>Name - {character.name}</p>
-                                    <p>Status - {character.status}</p>
-                                    <p>Status - {character.species}</p>
+                                    <CharacterCard>
+                                        <img src={character.image}/>
+                                        <p>Name - {character.name}</p>
+                                        <p>Status - {character.status}</p>
+                                        <p>Status - {character.species}</p>
+                                    </CharacterCard>
                                 </li>
                             </Fragment>
                         )
