@@ -18,7 +18,6 @@ function Index() {
     const navigate = useNavigate();
     const queryClient = useQueryClient()
 
-    // const maxPages = data?.pages[0].info.pages || 1;
 
     const {
         data,
@@ -32,8 +31,7 @@ function Index() {
         queryFn: (page) => getCharacters({...search, page: page.pageParam}),
         initialPageParam: search.page ?? 1,
         getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.length === 0) {
-            // if (lastPage === maxPages) {
+            if (lastPage.data.info.pages <= search.page) {
                 return undefined
             }
             return lastPageParam + 1
@@ -45,6 +43,7 @@ function Index() {
             return firstPageParam - 1
         },
     })
+
 
     const handleInput = (e: FormEvent) => {
         navigate({ search: {...search, [e.target.name]: e.target.value, page: 1} });
